@@ -31,6 +31,9 @@ class _MyHomePageState extends State<MyHomePage> {
   double num1 = 0.0;
   double num2 = 0.0;
   String operand = "";
+  String displayNum1 = "0";
+  String displayNum2 = "0";
+  String displayOpp = "";
 
   numberPressed(String buttonText) {
     if (buttonText == "ALL CLEAR") {
@@ -38,12 +41,17 @@ class _MyHomePageState extends State<MyHomePage> {
       num1 = 0.0;
       num2 = 0.0;
       operand = "";
+      displayNum1 = "0.0";
+      displayNum2 = "0.0";
+      displayOpp = "";
     } else if (buttonText == "+" ||
         buttonText == "-" ||
         buttonText == "/" ||
         buttonText == "X") {
       num1 = double.parse(output);
       operand = buttonText;
+      displayNum1 = double.parse(output).toStringAsFixed(2);
+      displayOpp = operand;
       temp = "0";
     } else if (buttonText == ".") {
       if (temp.contains(".")) {
@@ -53,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     } else if (buttonText == "=") {
       num2 = double.parse(output);
+      displayNum2 = double.parse(output).toStringAsFixed(2);
 
       if (operand == "+") {
         temp = (num1 + num2).toString();
@@ -77,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print(temp);
 
     setState(() {
-      output = double.parse(temp).toStringAsFixed(3);
+      output = double.parse(temp).toStringAsFixed(2);
     });
   }
 
@@ -110,7 +119,20 @@ class _MyHomePageState extends State<MyHomePage> {
             child: new Column(
           children: <Widget>[
             new Container(
-              height: height * .43,
+              height: height * .1,
+              alignment: Alignment.bottomRight,
+              child: new Text(
+                "$displayNum1 $displayOpp $displayNum2 ",
+                style: new TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            new Divider(),
+            new Container(
+              height: height * .15,
               alignment: Alignment.bottomRight,
               child: new Text(
                 output,
